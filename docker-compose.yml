@@ -1,0 +1,24 @@
+services:
+  mongodb_auth:
+    image: mongo:latest
+    container_name: auth_mongodb
+    ports:
+      - "27002:27017"
+    volumes:
+      - auth_mongo_data:/data/db
+
+  auth_backend:
+    build: .
+    container_name: Auth
+    restart: unless-stopped
+    ports:
+      - "3008:3008"
+    env_file:
+      - "./.env"
+    volumes:
+      - ./.env:/src/.env
+    depends_on:
+      - mongodb_auth
+
+volumes:
+  auth_mongo_data:
