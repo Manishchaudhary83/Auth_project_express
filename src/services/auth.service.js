@@ -11,6 +11,14 @@ module.exports = {
 
             const {fullName,username,email,phone,password} = data
 
+              // Check required fields
+            if (!fullName || !username || !email || !phone || !password) {
+                return {
+                    message: "All fields are required",
+                    status: 400
+                }
+            }
+
             // Check if email, username  already exists
             const existingUser = await userModel.findOne({
                 $or: [
@@ -64,6 +72,14 @@ module.exports = {
 
         try {
             const {username,email,password} = data
+
+               // Check login fields
+            if ((!username && !email) || !password) {
+                return {
+                    message: "Username or email and password are required",
+                    status: 400
+                }
+            }
 
             // Find user by username or email
             const user = await userModel.findOne({
