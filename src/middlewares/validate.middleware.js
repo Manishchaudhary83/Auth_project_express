@@ -90,9 +90,35 @@ const loginUserValidationRules = [
 ]
 
 
+//forgot password
+const forgotPasswordValidationRules = [
 
+    body("email")
+        .trim()
+        .notEmpty()
+        .withMessage("Email is required")
+        .isEmail()
+        .withMessage("Invalid email address")
+        .normalizeEmail(),
+
+    validateResult
+]
+
+//reset validation rules
+const resetPasswordValidationRules = [
+
+    body("newPassword")
+        .notEmpty()
+        .withMessage("New password is required")
+        .isLength({ min: 8, max: 128 })
+        .withMessage(
+            "Password must be between 8 and 128 characters"
+        ),
+
+    validateResult
+]
 
 
 module.exports = {
-    registerUserValidationRules, loginUserValidationRules
+    registerUserValidationRules, loginUserValidationRules, forgotPasswordValidationRules, resetPasswordValidationRules
 }
