@@ -1,4 +1,4 @@
-const {registerUser, loginUser} = require("../services/auth.service")
+const {registerUser, loginUser, forgotPassword, resetPassword} = require("../services/auth.service")
 
 module.exports = {
   //register controllerx
@@ -41,6 +41,53 @@ module.exports = {
             }
 
         },
+
+
+        //forgot passsword
+    forgotPasswordController: async (req, res, next) => {
+    try {
+
+        const { email } = req.body
+
+        const result = await forgotPassword(email)
+
+        return res.status(result.status).json({
+            message: result.message
+        })
+
+    } catch (error) {
+
+        console.error("Forgot password controller error:", error)
+
+        return next(error)
+    }
+},
+
+
+
+//reset password
+resetPasswordController: async (req, res, next) => {
+    try {
+
+        const { token } = req.params
+        const { newPassword } = req.body
+
+        const result = await resetPassword(
+            token,
+            newPassword
+        )
+
+        return res.status(result.status).json({
+            message: result.message
+        })
+
+    } catch (error) {
+
+        console.error("Reset password controller error:", error)
+
+        return next(error)
+    }
+},
 
 
 
